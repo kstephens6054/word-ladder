@@ -52,4 +52,16 @@ describe("WordGraph", () => {
     expect(graphWithWords.getNeighbors("cot")).toEqual(["cat", "cut"]);
     expect(graphWithWords.getNeighbors("cut")).toEqual(["cat", "cot"]);
   });
+
+  it ("should create a graph from entries", () => {
+    const entries: [string, string[]][] = [
+      ["cat", ["cot", "cut"]],
+      ["cot", ["cat", "cut"]],
+      ["cut", ["cat", "cot"]],
+    ];
+    const graphFromEntries = WordGraph.fromEntries(entries);
+    expect(graphFromEntries.getNeighbors("cat")).toEqual(["cot", "cut"]);
+    expect(graphFromEntries.getNeighbors("cot")).toEqual(["cat", "cut"]);
+    expect(graphFromEntries.getNeighbors("cut")).toEqual(["cat", "cot"]);
+  });
 });
