@@ -29,6 +29,34 @@ export class WordGraph {
     return this.words.get(word);
   }
 
+  findAllPaths(
+    start: string,
+    maxDepth: number | undefined = undefined,
+  ): string[][] {
+    const paths: string[][] = [];
+    const queue: { word: string; path: string[] }[] = [
+      { word: start, path: [start] },
+    ];
+
+    while (queue.length > 0) {
+      const { word, path } = queue.shift()!;
+      if (maxDepth !== undefined && path.length >= maxDepth) continue;
+
+      const neighbors = this.getNeighbors(word);
+      if (!neighbors) continue;
+
+      for (const neighbor of neighbors) {
+        if (!path.includes(neighbor)) {
+          const newPath = [...path, neighbor];
+          paths.push(newPath);
+          queue.push({ word: neighbor, path: newPath });
+        }
+      }
+    }
+
+    return paths;
+  }
+
   private updateNeighbors(word: string): void {
     for (const [existingWord, existingNeighbors] of this.words.entries()) {
       if (this.areNeighbors(word, existingWord)) {

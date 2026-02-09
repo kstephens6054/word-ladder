@@ -53,7 +53,7 @@ describe("WordGraph", () => {
     expect(graphWithWords.getNeighbors("cut")).toEqual(["cat", "cot"]);
   });
 
-  it ("should create a graph from entries", () => {
+  it("should create a graph from entries", () => {
     const entries: [string, string[]][] = [
       ["cat", ["cot", "cut"]],
       ["cot", ["cat", "cut"]],
@@ -63,5 +63,27 @@ describe("WordGraph", () => {
     expect(graphFromEntries.getNeighbors("cat")).toEqual(["cot", "cut"]);
     expect(graphFromEntries.getNeighbors("cot")).toEqual(["cat", "cut"]);
     expect(graphFromEntries.getNeighbors("cut")).toEqual(["cat", "cot"]);
+  });
+
+  it("should find paths correctly", () => {
+    const initialWords = ["cat", "cot", "cut", "bat", "bot", "but"];
+    const graphWithWords = new WordGraph(initialWords);
+
+    const pathsFromCat = graphWithWords.findAllPaths("cat");
+    expect(pathsFromCat).toContainEqual(["cat", "cot"]);
+    expect(pathsFromCat).toContainEqual(["cat", "bat"]);
+    expect(pathsFromCat).toContainEqual(["cat", "cot", "bot"]);
+    expect(pathsFromCat).toContainEqual(["cat", "cot", "cut"]);
+  });
+
+  it("should respect maxDepth in findAllPaths", () => {
+    const initialWords = ["cat", "cot", "cut", "bat", "bot", "but"];
+    const graphWithWords = new WordGraph(initialWords);
+
+    const pathsFromCatMax2 = graphWithWords.findAllPaths("cat", 2);
+    for (const ladder of pathsFromCatMax2) {
+      console.log(ladder);
+      expect(ladder.length).toBeLessThanOrEqual(2);
+    }
   });
 });
