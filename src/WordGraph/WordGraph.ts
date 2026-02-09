@@ -1,8 +1,13 @@
 export class WordGraph {
   words: Map<string, string[]>;
 
-  constructor() {
+  constructor(wordList: string[] = []) {
     this.words = new Map();
+    if (wordList.length > 0) {
+      for (const word of wordList) {
+        this.addWord(word);
+      }
+    }
   }
 
   addWord(word: string): void {
