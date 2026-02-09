@@ -10,6 +10,14 @@ export class WordGraph {
     }
   }
 
+  static fromEntries(entries: [string, string[]][]): WordGraph {
+    const graph = new WordGraph();
+    for (const [word, neighbors] of entries) {
+      graph.words.set(word, neighbors);
+    }
+    return graph;
+  }
+
   addWord(word: string): void {
     if (!this.words.has(word)) {
       this.words.set(word, []);
