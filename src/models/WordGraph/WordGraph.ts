@@ -41,21 +41,21 @@ export class WordGraph {
   }
 
   /**
-   * Return an iterator to the list of words.
-   *
-   * @returns {MapIterator<string>}
-   */
-  get words(): MapIterator<string> {
-    return this._adjacencyMap.keys();
-  }
-
-  /**
    * Return the number of words in the graph.
    *
    * @returns {number}
    */
   get size(): number {
     return this._adjacencyMap.size;
+  }
+
+  /**
+   * Return an iterator to the list of words.
+   *
+   * @returns {MapIterator<string>}
+   */
+  words(): MapIterator<string> {
+    return this._adjacencyMap.keys();
   }
 
   /**

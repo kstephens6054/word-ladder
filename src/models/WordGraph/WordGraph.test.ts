@@ -115,7 +115,7 @@ describe("WordGraph", () => {
     const graphWithWords = new WordGraph(initialWords);
 
     expect(graphWithWords).toHaveProperty("words");
-    expect([...graphWithWords.words]).toEqual(initialWords);
+    expect([...graphWithWords.words()]).toEqual(initialWords);
   });
 
   it("should return the length of the word list", () => {
