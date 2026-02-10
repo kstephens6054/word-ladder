@@ -82,8 +82,21 @@ describe("WordGraph", () => {
 
     const pathsFromCatMax2 = graphWithWords.findAllPaths("cat", 2);
     for (const ladder of pathsFromCatMax2) {
-      console.log(ladder);
       expect(ladder.length).toBeLessThanOrEqual(2);
     }
+  });
+
+  it("should test if a word is in the word list", () => {
+    const initialWords = ["cat", "cot", "cut", "bat", "bot", "but"];
+    const graphWithWords = new WordGraph(initialWords);
+
+    expect(graphWithWords.hasWord("cat")).toBe(true);
+    expect(graphWithWords.hasWord("dog")).toBe(false);
+  });
+
+  it("should test if two words are neighbors", () => {
+    expect(WordGraph.areNeighbors("cat", "cot")).toBe(true);
+    expect(WordGraph.areNeighbors("cat", "bot")).toBe(false);
+    expect(WordGraph.areNeighbors("cat", "dog")).toBe(false);
   });
 });

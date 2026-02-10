@@ -59,14 +59,18 @@ export class WordGraph {
 
   private updateNeighbors(word: string): void {
     for (const [existingWord, existingNeighbors] of this.words.entries()) {
-      if (this.areNeighbors(word, existingWord)) {
+      if (WordGraph.areNeighbors(word, existingWord)) {
         this.words.get(word)?.push(existingWord);
         existingNeighbors.push(word);
       }
     }
   }
 
-  private areNeighbors(word1: string, word2: string): boolean {
+  hasWord(word: string): boolean {
+    return this.words.has(word);
+  }
+
+  static areNeighbors(word1: string, word2: string): boolean {
     if (word1.length !== word2.length) return false;
 
     let diffCount = 0;
