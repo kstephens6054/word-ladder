@@ -8,7 +8,7 @@
  * will consist of lowercase alphabetic characters.
  */
 export class WordGraph {
-  words: Map<string, string[]>;
+  private adjacencyMap: Map<string, string[]>;
 
   /**
    * Construct a new empty graph and optionally populate
@@ -17,7 +17,7 @@ export class WordGraph {
    * @param {string[]} wordList The initial list of words
    */
   constructor(wordList: string[] = []) {
-    this.words = new Map();
+    this.adjacencyMap = new Map();
     if (wordList.length > 0) {
       for (const word of wordList) {
         this.addWord(word);
@@ -35,9 +35,27 @@ export class WordGraph {
   static fromEntries(entries: [string, string[]][]): WordGraph {
     const graph = new WordGraph();
     for (const [word, neighbors] of entries) {
-      graph.words.set(word, neighbors);
+      graph.adjacencyMap.set(word, neighbors);
     }
     return graph;
+  }
+
+  /**
+   * Return an iterator to the list of words.
+   *
+   * @returns {MapIterator<string>}
+   */
+  get words(): MapIterator<string> {
+    return this.adjacencyMap.keys();
+  }
+
+  /**
+   * Return the number of words in the graph.
+   *
+   * @returns {number}
+   */
+  get size(): number {
+    return this.adjacencyMap.size;
   }
 
   /**
@@ -46,8 +64,8 @@ export class WordGraph {
    * @param {string} word The new word.
    */
   addWord(word: string): void {
-    if (!this.words.has(word)) {
-      this.words.set(word, []);
+    if (!this.adjacencyMap.has(word)) {
+      this.adjacencyMap.set(word, []);
       this.updateNeighbors(word);
     }
   }
@@ -60,7 +78,7 @@ export class WordGraph {
    * @returns {string[] | undefined}
    */
   getNeighbors(word: string): string[] | undefined {
-    return this.words.get(word);
+    return this.adjacencyMap.get(word);
   }
 
   /**
@@ -121,9 +139,12 @@ export class WordGraph {
    * @param {string} word
    */
   private updateNeighbors(word: string): void {
-    for (const [existingWord, existingNeighbors] of this.words.entries()) {
+    for (const [
+      existingWord,
+      existingNeighbors,
+    ] of this.adjacencyMap.entries()) {
       if (WordGraph.areNeighbors(word, existingWord)) {
-        this.words.get(word)?.push(existingWord);
+        this.adjacencyMap.get(word)?.push(existingWord);
         existingNeighbors.push(word);
       }
     }
@@ -136,7 +157,7 @@ export class WordGraph {
    * @returns {boolean}
    */
   hasWord(word: string): boolean {
-    return this.words.has(word);
+    return this.adjacencyMap.has(word);
   }
 
   /**

@@ -109,4 +109,20 @@ describe("WordGraph", () => {
       expect(path.length).toBe(3);
     }
   });
+
+  it("should return an iterator to the word list", () => {
+    const initialWords = ["cat", "cot", "cut"];
+    const graphWithWords = new WordGraph(initialWords);
+
+    expect(graphWithWords).toHaveProperty("words");
+    expect([...graphWithWords.words]).toEqual(initialWords);
+  });
+
+  it("should return the length of the word list", () => {
+    const initialWords = ["cat", "cot", "cut"];
+    const graphWithWords = new WordGraph(initialWords);
+
+    expect(graphWithWords).toHaveProperty("size");
+    expect(graphWithWords.size).toBe(3);
+  });
 });
