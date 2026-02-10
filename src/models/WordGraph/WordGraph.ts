@@ -1,6 +1,21 @@
+/**
+ * The WordGraph class implements a graph from a list
+ * of words having edges that link all words of the same
+ * length that differ by a single letter.
+ *
+ * While this implementation does not enforce any constraints
+ * regarding character case or type, we assume that all words
+ * will consist of lowercase alphabetic characters.
+ */
 export class WordGraph {
   words: Map<string, string[]>;
 
+  /**
+   * Construct a new empty graph and optionally populate
+   * the graph from an initial word list.
+   *
+   * @param {string[]} wordList The initial list of words
+   */
   constructor(wordList: string[] = []) {
     this.words = new Map();
     if (wordList.length > 0) {
@@ -10,6 +25,13 @@ export class WordGraph {
     }
   }
 
+  /**
+   * Create a new WordGraph object from an existing adjacency
+   * list.
+   *
+   * @param {[string, string[]][]} entries
+   * @returns <WordGraph>
+   */
   static fromEntries(entries: [string, string[]][]): WordGraph {
     const graph = new WordGraph();
     for (const [word, neighbors] of entries) {
@@ -18,6 +40,11 @@ export class WordGraph {
     return graph;
   }
 
+  /**
+   * Add a new word to the graph and update the adjacency list.
+   *
+   * @param {string} word The new word.
+   */
   addWord(word: string): void {
     if (!this.words.has(word)) {
       this.words.set(word, []);
@@ -25,13 +52,29 @@ export class WordGraph {
     }
   }
 
+  /**
+   * Return the adjacency list for a given word or
+   * undefinend if the word is not in the graph.
+   *
+   * @param {string} word The word to search for.
+   * @returns {string[] | undefined}
+   */
   getNeighbors(word: string): string[] | undefined {
     return this.words.get(word);
   }
 
+  /**
+   * Returns all paths in the graph from a given starting word.
+   * If the optional maxLength argument is specified, the search will
+   * stop beyond the given depth.
+   *
+   * @param {string} start
+   * @param {number | undefined} maxDepth Maximuum search depth
+   * @returns
+   */
   findAllPaths(
     start: string,
-    maxDepth: number | undefined = undefined,
+    maxLength: number | undefined = undefined,
   ): string[][] {
     const paths: string[][] = [];
     const queue: { word: string; path: string[] }[] = [
@@ -40,7 +83,7 @@ export class WordGraph {
 
     while (queue.length > 0) {
       const { word, path } = queue.shift()!;
-      if (maxDepth !== undefined && path.length >= maxDepth) continue;
+      if (maxLength !== undefined && path.length >= maxLength) continue;
 
       const neighbors = this.getNeighbors(word);
       if (!neighbors) continue;
@@ -57,6 +100,26 @@ export class WordGraph {
     return paths;
   }
 
+  /**
+   * Return all paths from a given starting word having the specified
+   * length.
+   *
+   * @param {string} start
+   * @param {number} length
+   * @returns {string[][]}
+   */
+  findAllPathsByLength(start: string): string[][] {
+    return this.findAllPaths(start, length).filter(
+      (path) => path.length >= length,
+    );
+  }
+
+  /**
+   * Update the adjacency list for a new word.
+   *
+   * @private
+   * @param {string} word
+   */
   private updateNeighbors(word: string): void {
     for (const [existingWord, existingNeighbors] of this.words.entries()) {
       if (WordGraph.areNeighbors(word, existingWord)) {
@@ -66,10 +129,25 @@ export class WordGraph {
     }
   }
 
+  /**
+   * Is the word in the graph?
+   *
+   * @param {string} word
+   * @returns {boolean}
+   */
   hasWord(word: string): boolean {
     return this.words.has(word);
   }
 
+  /**
+   * Are these two words adjacent?
+   *
+   * @static
+   *
+   * @param {string} word1
+   * @param {string} word2
+   * @returns {boolean}
+   */
   static areNeighbors(word1: string, word2: string): boolean {
     if (word1.length !== word2.length) return false;
 
