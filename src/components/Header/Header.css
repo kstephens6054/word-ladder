@@ -1,0 +1,52 @@
+header {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  padding: 1rem;
+  z-index: 1;
+}
+
+header h1 {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 1fr;
+  grid-row: 1;
+  grid-column: 1;
+  font-family: "Agbalumo", serif;
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 700;
+  z-index: 3;
+}
+
+header h1 span {
+  display: block;
+  justify-self: center;
+  align-self: center;
+}
+
+header h1 .logo-text-top {
+  align-self: end;
+  font-size: 4rem;
+  /* hsl(26, 63%, 76%) */
+  color: hsl(206, 100%, 53%);
+  text-shadow: 0.125rem 0.125rem 0.25rem hsla(26, 42%, 35%, 0.75);
+  rotate: -22.5deg;
+  translate: -1rem 0;
+}
+
+header h1 .logo-text-bottom {
+  align-self: center;
+  font-size: 2.5rem;
+  color: hsl(206, 100%, 64%);
+  text-shadow: 0.125rem 0.125rem 0.25rem hsla(26, 42%, 35%, 0.75);
+}
+
+header img {
+  display: block;
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: center;
+  align-self: center;
+  z-index: 2;
+}
