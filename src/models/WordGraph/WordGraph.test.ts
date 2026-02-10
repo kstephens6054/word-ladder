@@ -103,7 +103,7 @@ describe("WordGraph", () => {
   it("should return all paths with the specified length", () => {
     const initialWords = ["cat", "cot", "cut", "bat", "bot", "but"];
     const graphWithWords = new WordGraph(initialWords);
-    const pathsFromCat = graphWithWords.findAllPathsByLength(3);
+    const pathsFromCat = graphWithWords.findAllPathsByLength("cat", 3);
 
     for (const path of pathsFromCat) {
       expect(path.length).toBe(3);

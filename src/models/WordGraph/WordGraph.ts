@@ -108,7 +108,7 @@ export class WordGraph {
    * @param {number} length
    * @returns {string[][]}
    */
-  findAllPathsByLength(start: string): string[][] {
+  findAllPathsByLength(start: string, length: number): string[][] {
     return this.findAllPaths(start, length).filter(
       (path) => path.length >= length,
     );
