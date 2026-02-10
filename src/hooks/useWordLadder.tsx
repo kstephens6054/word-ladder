@@ -1,4 +1,4 @@
-import WordGraph from "../WordGraph";
+import WordGraph from "../models/WordGraph";
 
 export type WordLadderGame = {
   game: {
@@ -17,18 +17,6 @@ export type WordLadderGame = {
  */
 
 const useWordLadder = (wordList: string[]): WordLadderGame => {
-  const _dummyWordList = [
-    "cat",
-    "cut",
-    "bat",
-    "cot",
-    "got",
-    "lot",
-    "cog",
-    "hog",
-    "log",
-  ];
-
   const game = {
     fromWord: "cat",
     toWord: "dog",

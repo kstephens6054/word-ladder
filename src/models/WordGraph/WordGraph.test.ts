@@ -1,7 +1,7 @@
 // vitest environment node
 
 import { describe, it, expect, beforeEach } from "vitest";
-import WordGraph from "../../WordGraph";
+import WordGraph from ".";
 
 describe("WordGraph", () => {
   let graph: WordGraph;
