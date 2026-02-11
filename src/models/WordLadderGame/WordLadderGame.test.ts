@@ -45,6 +45,13 @@ describe("WordLadderGame class", () => {
     expect(game.hasWord("foo")).toBe(false);
   });
 
+  it("should test if two words are neighbors", () => {
+    const game = new WordLadderGame(["foo", "for", "far", "bar"]);
+
+    expect(game.areNeighbors("foo", "for")).toBe(true);
+    expect(game.areNeighbors("foo", "far")).toBe(false);
+  });
+
   it("should start a new game with a random path", () => {
     const wordList = [
       "cat",

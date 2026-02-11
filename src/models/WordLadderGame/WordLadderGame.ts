@@ -48,6 +48,17 @@ export class WordLadderGame {
   }
 
   /**
+   * Test if two words are neighbors.
+   * 
+   * @param {string} word1
+   * @param {string} word2
+   * @returns {boolean}
+   */
+  areNeighbors(word1: string, word2: string): boolean {
+    return WordGraph.areNeighbors(word1, word2);
+  }
+  
+  /**
    * Return the starting word for the current game. Returns an
    * empty string if no path has been generated.
    *
