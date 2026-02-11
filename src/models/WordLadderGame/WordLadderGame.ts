@@ -49,7 +49,7 @@ export class WordLadderGame {
 
   /**
    * Test if two words are neighbors.
-   * 
+   *
    * @param {string} word1
    * @param {string} word2
    * @returns {boolean}
@@ -57,7 +57,7 @@ export class WordLadderGame {
   areNeighbors(word1: string, word2: string): boolean {
     return WordGraph.areNeighbors(word1, word2);
   }
-  
+
   /**
    * Return the starting word for the current game. Returns an
    * empty string if no path has been generated.
@@ -93,13 +93,24 @@ export class WordLadderGame {
    * @param {number} length
    */
   startGame(length: number): void {
+    this._path = [];
+
+    if (this._wordGraph.size < length) {
+      throw new Error("Called startGame with an empty word list");
+    }
+
+    if (this._startWords.length === 0) {
+      throw new Error("No valid start words in word List");
+    }
+
+    const MAX_RETRIES = 100;
     let path: string[] = [];
 
-    while (path.length < length) {
+    for (let retries = 0; retries < MAX_RETRIES; retries++) {
       let startWord = this._getRandomStartWord();
-      if (startWord === "") break;
-
       path = this._wordGraph.findRandomPath(startWord, length);
+
+      if (path.length === length) break;
     }
 
     this._path = path;
