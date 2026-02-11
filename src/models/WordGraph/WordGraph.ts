@@ -82,6 +82,47 @@ export class WordGraph {
   }
 
   /**
+   * Returns a randomized path of the specifies length from a given starting
+   * word.
+   *
+   * @param {string} start
+   * @param {number} length Path length
+   * @returns {string[]}
+   */
+  findRandomPath(start: string, length: number): string[] {
+    const queue: { word: string; path: string[] }[] = [
+      { word: start, path: [start] },
+    ];
+
+    while (queue.length > 0) {
+      const { word, path } = queue.shift()!;
+      if (path.length === length) {
+        return path;
+      }
+
+      const neighbors = this.getNeighbors(word);
+      if (!neighbors) continue;
+
+      neighbors.sort(() => Math.random() - 0.5);
+
+      for (const neighbor of neighbors) {
+        if (path.includes(neighbor)) continue;
+        if (
+          !path
+            .slice(0, -1)
+            .every((ancestor) => !WordGraph.areNeighbors(ancestor, neighbor))
+        )
+          continue;
+
+        const newPath = [...path, neighbor];
+        queue.push({ word: neighbor, path: newPath });
+      }
+    }
+
+    return [];
+  }
+
+  /**
    * Returns all paths in the graph from a given starting word.
    * If the optional maxLength argument is specified, the search will
    * stop beyond the given depth.

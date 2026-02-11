@@ -125,4 +125,34 @@ describe("WordGraph", () => {
     expect(graphWithWords).toHaveProperty("size");
     expect(graphWithWords.size).toBe(3);
   });
+
+  it("should find a random path of given length", () => {
+    const wordList = [
+      "cat",
+      "hat",
+      "cut",
+      "hut",
+      "cot",
+      "hot",
+      "got",
+      "lot",
+      "cog",
+      "hog",
+      "log",
+      "fog",
+      "dog",
+    ];
+    const graphWithWords = new WordGraph(wordList);
+    let path = graphWithWords.findRandomPath("hat", 4);
+
+    expect(path.length).toBe(4);
+
+    const paths = new Set<string>();
+    for (let i = 1; i <= 10; i++) {
+      path = graphWithWords.findRandomPath("hat", 4);
+      paths.add(path.join("|"));
+    }
+
+    expect(paths.size).toBeGreaterThan(1);
+  });
 });
