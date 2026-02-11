@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WordLadderGame } from "../models/WordLadderGame";
 
 export type UseWordLadderProperties = {
@@ -31,11 +31,11 @@ const useWordLadder = ({
   const [toWord, setToWord] = useState<string>(() => game.toWord);
   const [steps, setsteps] = useState<number>(() => game.steps);
 
-  const _updateStatus = (): void => {
+  useEffect(() => {
     setFromWord(() => game.fromWord);
     setToWord(() => game.toWord);
     setsteps(() => game.steps);
-  };
+  }, [game]);
 
   /**
    * Re-initialize the game with a new word list. Refer to the
@@ -45,11 +45,10 @@ const useWordLadder = ({
    */
   const newGame = ({
     wordList,
-    path,
-    minNeighbors,
+    path = [],
+    minNeighbors = 1,
   }: UseWordLadderProperties): void => {
     setGame(() => new WordLadderGame(wordList, path, minNeighbors));
-    _updateStatus();
   };
 
   /**
@@ -60,7 +59,9 @@ const useWordLadder = ({
    */
   const startGame = (steps: number): void => {
     game.startGame(steps);
-    _updateStatus();
+    setFromWord(() => game.fromWord);
+    setToWord(() => game.toWord);
+    setsteps(() => game.steps);
   };
 
   /**
