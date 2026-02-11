@@ -16,6 +16,7 @@
     "@fontsource-variable/roboto": "^5.2.9",
     "@fontsource/agbalumo": "^5.2.8",
     "@fontsource/handlee": "^5.2.7",
+    "@tanstack/react-query": "^5.90.21",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
