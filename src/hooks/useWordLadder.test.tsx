@@ -105,4 +105,7 @@ describe("useWordLadder hook", () => {
       screen.getByText(`${word1} and ${word3} are not neighbors`),
     ).toBeInTheDocument();
   });
+
+  it.todo("should generate a new random path");
+  it.todo("should set up a new game");
 });
