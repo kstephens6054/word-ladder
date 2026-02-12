@@ -146,7 +146,7 @@ describe("useWordLadder hook", () => {
 
   it("should reset thhe game with a new word list", () => {
     const TestApp = (props: UseWordLadderProperties) => {
-      const { fromWord, toWord, steps, startGame, newGame } =
+      const { fromWord, toWord, steps, startGame, newGame, status } =
         useWordLadder(props);
 
       const handleStartgame = () => {
@@ -161,6 +161,7 @@ describe("useWordLadder hook", () => {
         <>
           <button onClick={handleStartgame}>Start Game</button>
           <button onClick={handleNewGame}>New Game</button>
+          <div>{`status = "${status}"`}</div>
           <div>{`fromWord = "${fromWord}"`}</div>
           <div>{`toWord = "${toWord}"`}</div>
           <div>{`steps = ${steps}`}</div>
@@ -172,7 +173,6 @@ describe("useWordLadder hook", () => {
     render(<TestApp wordList={wordList} minNeighbors={1} />);
 
     fireEvent.click(screen.getByText(/start game/i));
-
     expect(screen.getByText(/fromWord = "(?:cat|dog)"/i)).toBeInTheDocument();
     expect(screen.getByText(/toWord = "(?:dog|cat)"/i)).toBeInTheDocument();
     expect(screen.getByText(/steps = 4/i)).toBeInTheDocument();

@@ -16,6 +16,8 @@ const initialValues: WordLadderProperties = {
   startGame: () => {},
   hasWord: () => false,
   areNeighbors: () => false,
+  status: "pending",
+  error: null,
 };
 
 const WordLadderContext = createContext<WordLadderProperties>(initialValues);

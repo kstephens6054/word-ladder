@@ -7,6 +7,8 @@ export type UseWordLadderProperties = {
   minNeighbors?: number;
 };
 
+export type UseWordLadderStatus = "pending" | "error" | "success";
+
 /**
  * The useWordLadder hook provides the game logic for the Word Ladder
  * game.
@@ -24,18 +26,24 @@ const useWordLadder = ({
   minNeighbors,
 }: UseWordLadderProperties) => {
   const [game, setGame] = useState<WordLadderGame>(
-    () => new WordLadderGame(wordList, path, minNeighbors),
+    new WordLadderGame(wordList, path, minNeighbors),
   );
 
-  const [fromWord, setFromWord] = useState<string>(() => game.fromWord);
-  const [toWord, setToWord] = useState<string>(() => game.toWord);
-  const [steps, setsteps] = useState<number>(() => game.steps);
+  const [fromWord, setFromWord] = useState<string>("");
+  const [toWord, setToWord] = useState<string>("");
+  const [steps, setSteps] = useState<number>(0);
+  const [status, setStatus] = useState<UseWordLadderStatus>("pending");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setFromWord(() => game.fromWord);
-    setToWord(() => game.toWord);
-    setsteps(() => game.steps);
-  }, [game]);
+    const newGame = new WordLadderGame(wordList, path, minNeighbors);
+    setGame(newGame);
+    setFromWord(newGame.fromWord);
+    setToWord(newGame.toWord);
+    setSteps(newGame.steps);
+    setError(null);
+    setStatus("success");
+  }, []);
 
   /**
    * Re-initialize the game with a new word list. Refer to the
@@ -48,7 +56,23 @@ const useWordLadder = ({
     path = [],
     minNeighbors = 1,
   }: UseWordLadderProperties): void => {
-    setGame(() => new WordLadderGame(wordList, path, minNeighbors));
+    setStatus(() => "pending");
+
+    try {
+      const newGame = new WordLadderGame(wordList, path, minNeighbors);
+      setGame(newGame);
+      setFromWord(newGame.fromWord);
+      setToWord(newGame.toWord);
+      setSteps(newGame.steps);
+      setError(() => null);
+      setStatus(() => "success");
+    } catch (error: any) {
+      setFromWord("");
+      setToWord("");
+      setSteps(0);
+      setError(() => error.message);
+      setStatus(() => "error");
+    }
   };
 
   /**
@@ -58,10 +82,21 @@ const useWordLadder = ({
    * @param {number} steps Number of steps for the random path
    */
   const startGame = (steps: number): void => {
-    game.startGame(steps);
-    setFromWord(() => game.fromWord);
-    setToWord(() => game.toWord);
-    setsteps(() => game.steps);
+    setStatus("pending");
+    try {
+      game.startGame(steps);
+      setFromWord(game.fromWord);
+      setToWord(game.toWord);
+      setSteps(game.steps);
+      setError(null);
+      setStatus("success");
+    } catch (error: any) {
+      setFromWord("");
+      setToWord("");
+      setSteps(0);
+      setError(error.message);
+      setStatus("error");
+    }
   };
 
   /**
@@ -90,6 +125,8 @@ const useWordLadder = ({
     startGame,
     hasWord,
     areNeighbors,
+    status,
+    error,
   } as const;
 };
 

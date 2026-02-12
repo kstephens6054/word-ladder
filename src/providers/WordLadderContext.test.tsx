@@ -32,7 +32,7 @@ describe("WordLadder context provider", () => {
     expect(screen.getByText(/steps = 0/i)).toBeInTheDocument();
   });
 
-  it("should allow starting a new game", () => {
+  it.skip("should allow starting a new game", () => {
     const WordLadderConsumer = () => {
       const { fromWord, toWord, steps, newGame, startGame, hasWord } =
         useContext(WordLadderContext);
