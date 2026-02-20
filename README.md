@@ -2,6 +2,29 @@
 
 An online word ladder game built with React, TypeScript, and Vite.
 
+## Architecture
+
+### root Component
+
+The root component provides the query context, suspense boundaries and
+error boundaries for the application.
+
+### App Component
+
+The App component manages the word list used by the game.
+
+### Layout Component
+
+The Layout component displays the app UI elements
+
+### WordLadderGame Component
+
+The WordLadderGame component manages the state for the current game
+
+### Playfield Component
+
+The Playfield component manages the game UI.
+
 ## Tech Stack
 
 - **React 19** - UI library
@@ -61,4 +84,3 @@ npm run lint
 ├── vite.config.ts       # Vite & Vitest configuration
 └── package.json         # Project dependencies and scripts
 ```
-
